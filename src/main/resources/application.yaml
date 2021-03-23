@@ -1,0 +1,6 @@
+spring:
+  properties:
+    active: dev
+server:
+  servlet:
+    contextPath: /pgdemo
