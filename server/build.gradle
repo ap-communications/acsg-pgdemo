@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'com.google.cloud.tools.jib' version '2.8.0'
 	id 'java'
 }
 
@@ -16,6 +17,12 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+jib {
+	from {
+		image = 'mcr.microsoft.com/java/jdk:11-zulu-alpine'
+	}
 }
 
 dependencies {
