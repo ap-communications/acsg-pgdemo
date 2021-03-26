@@ -21,7 +21,7 @@ repositories {
 
 jib {
 	from {
-		image = 'mcr.microsoft.com/java/jdk:11-zulu-alpine'
+		image = 'gcr.io/distroless/java:11'
 	}
 }
 
