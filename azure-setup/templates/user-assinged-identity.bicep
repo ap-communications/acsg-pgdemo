@@ -3,7 +3,7 @@ param name string
 @description('resource location')
 param location string = resourceGroup().location
 @description('tags for resource')
-param tags object = json('null')
+param tags object = {}
 
 resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: name

@@ -12,7 +12,7 @@ param sku string = 'pergb2018'
 @maxValue(730)
 param retentionDays int = 7
 // Tag information for Log analytics workspace
-param tags object = json('null')
+param tags object = {}
 
 var workspaceName = '${workspaceNamePrefix}-${subscriptionId}'
 
