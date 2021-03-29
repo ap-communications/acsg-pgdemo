@@ -3,4 +3,4 @@ spring:
     active: dev
 server:
   servlet:
-    contextPath: /pgdemo
+    contextPath: /basic

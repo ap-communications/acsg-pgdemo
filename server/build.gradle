@@ -23,6 +23,9 @@ jib {
 	from {
 		image = 'gcr.io/distroless/java:11'
 	}
+	to {
+		tags = ['latest']
+	}
 }
 
 dependencies {

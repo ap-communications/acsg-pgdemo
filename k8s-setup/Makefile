@@ -1,5 +1,5 @@
 .PHONY: helm-setup
-helm-setup:
+ingress-setup:
 	kubectl apply -f ingress-namespace.yaml
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 	helm repo update
