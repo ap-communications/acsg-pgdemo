@@ -7,7 +7,7 @@ param sku string = 'Basic'
 @description('Admin user is enabled')
 param adminUserEnabled bool = false
 @description('tags for container registory')
-param tags object = json('null')
+param tags object = {}
 @description('target princal id for acr pull role')
 param targetPrincipalId string
 
@@ -26,6 +26,7 @@ resource roleDef 'Microsoft.Authorization/roleDefinitions@2015-07-01' existing =
   scope: subscription()
   name: acrPullRole
 }
+
 // for acr pull role
 resource pull 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
   name: guid('${acrName}-AcrPullRole')
