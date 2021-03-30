@@ -32,6 +32,7 @@ spec:
         volumeMounts:
         - mountPath: /shared/java-agent
           name: java-agent
+          readOnly: true
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar"
