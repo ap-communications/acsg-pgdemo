@@ -26,15 +26,15 @@ spec:
         resources:
           requests:
             cpu: 100m       # 0.1 of a cpu
-            memory: 128Mi   # minimum size for running
+            memory: 128Mi   # minimum size for runningx
         ports:
         - containerPort: 8080
         volumeMounts:
         - mountPath: /shared/java-agent
           name: java-agent
         env:
-        - name: JAVA_OPTS
-          value: -javaagent:/shared/java-agent/applicationinsights-agent.jar
+        - name: JAVA_TOOL_OPTIONS
+          value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar"
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           valueFrom:
             secretKeyRef:
