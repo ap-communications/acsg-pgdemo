@@ -42,8 +42,8 @@ spec:
               key: instrumentationKey
       initContainers:
       - name: init-agent
-        image: pgdemoacr.azurecr.io/applicationinsights-agent:latest
-        command: ["cp", "applicationinsights-agent.jar", "/shared/java-agent"]
+        image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.2
+        command: ["cp", "applicationinsights-agent.jar", "/shared/java-agent/applicationinsights-agent.jar"]
         volumeMounts:
         - mountPath: /shared/java-agent
           name: java-agent
