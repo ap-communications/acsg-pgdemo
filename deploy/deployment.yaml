@@ -29,14 +29,24 @@ spec:
             memory: 128Mi   # minimum size for running
         ports:
         - containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pgdemo-basic
-spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: pgdemo-basic
+        volumeMounts:
+        - mountPath: /shared/java-agent
+          name: java-agent
+        env:
+        - name: JAVA_OPTIONS
+          value: -javaagent:/shared/java-agent/applicationinsights-agent.jar
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: instrumentationKey
+      initContainers:
+      - name: init-agent
+        image: pgdemoacr.azurecr.io/applicationinsights-agent:latest
+        command: ["cp", "applicationinsights-agent.jar", "/shared/java-agent"]
+        volumeMounts:
+        - mountPath: /shared/java-agent
+          name: java-agent
+      volumes:
+      - name: java-agent
+        emptyDir: {}
