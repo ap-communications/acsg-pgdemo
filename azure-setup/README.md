@@ -10,4 +10,8 @@ az deployment group create -f deploy-app-insights.bicep --resource-group $RESOUR
 
 # deploy workspace acr and aks
 az deployment group create -f deploy-aks.bicep --resource-group $RESOURCE_GROUP
+
+# deploy postgresql
+az deployment group create -f deploy-pgsql.bicep --resource-group $RESOURCE_GROUP
+
 ```
