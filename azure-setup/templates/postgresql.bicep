@@ -3,10 +3,12 @@ param name string
 @description('resource location')
 param location string = resourceGroup().location
 @description('Administrator user name')
+@secure()
 param adminUser string
 @description('Administrator user password')
 @secure()
 param adminPassword string
+@description('SKU tier')
 @allowed([
   'Basic'
   'GeneralPurpose'
@@ -32,7 +34,7 @@ resource pgsql 'Microsoft.DBForPostgreSQL/servers@2017-12-01' = {
   }
   properties: {
     createMode: 'Default'
-    administratorLogin: 'pgsqladmin'
-    administratorLoginPassword: 'p@ssw0rd'
+    administratorLogin: adminUser
+    administratorLoginPassword: adminPassword
   }
 }
