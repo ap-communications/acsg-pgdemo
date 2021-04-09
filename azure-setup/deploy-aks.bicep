@@ -53,15 +53,6 @@ module workspace 'templates/workspace.bicep' = {
   }
 }
 
-module subnet 'templates/query-subnet.bicep' = {
-  name: 'query-${subnetName}'
-  params: {
-    virtualNetworkName: vnetName
-    subnetName: subnetName
-  }
-}
-
-
 module aks 'templates/aks-cluster.bicep' = {
   name: 'nested-aks-${appName}'
   params: {
@@ -71,7 +62,8 @@ module aks 'templates/aks-cluster.bicep' = {
     agentMaxCount: agentMaxCount
     availabilityZones: aksAvailabilityZones
     workspaceId: workspace.outputs.id
-    vnetSubnetId: subnet.outputs.id
+    virtualNetworkName: vnetName
+    subnetName: subnetName
     tags: {
       app: appName
     }

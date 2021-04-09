@@ -34,10 +34,16 @@ param servicePrincipalId string = ''
 param servicePrincipalSecret string = ''
 @description('Log analytics workspace id')
 param workspaceId string = ''
-@description('vnet subnet id')
-param vnetSubnetId string = ''
+@description('Virtual network name')
+param virtualNetworkName string
+@description('query subnet name')
+param subnetName string
 @description('tags for aks cluster')
 param tags object = {}
+
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-08-01' existing = {
+  name: '${virtualNetworkName}/${subnetName}'
+}
 
 var servicePrincipalProfile = {
   clientId: servicePrincipalId
@@ -72,7 +78,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
         osType: 'Linux'
         enableAutoScaling: true
         availabilityZones: length(availabilityZones) == 0 ? json('null') : availabilityZones
-        vnetSubnetID: empty(vnetSubnetId) ? json('null') : vnetSubnetId
+        vnetSubnetID: empty(subnetName) ? json('null') : subnet.id
       }
     ]
     servicePrincipalProfile: length(servicePrincipalId) != 0 ? servicePrincipalProfile : systemAssignedPrincipalProfile
@@ -94,6 +100,17 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
 
 var principalIdForCluster = any(aks.properties.identityProfile.kubeletidentity).objectId
 
+// networking role
+module assignNetworkRole 'assign-subnet-role.bicep' = {
+  name: 'assing-network-contributor-role-to-${clusterName}'
+  params: {
+    virtualNetworkName: virtualNetworkName
+    subnetName: subnetName
+    targetPrincipalId: principalIdForCluster
+  }
+}
+
+// monitor metrics
 var monitoringMetricsPublisherRoleObjectId = '3913510d-42f4-4e42-8a64-420c390055eb'
 module queryMonitorRole 'role-definition.bicep' = {
   name: 'query-${monitoringMetricsPublisherRoleObjectId}'
