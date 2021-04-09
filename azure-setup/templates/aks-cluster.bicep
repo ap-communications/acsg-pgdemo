@@ -21,7 +21,7 @@ param agentMinCount int = 1
 @maxValue(100)
 param agentMaxCount int = agentMinCount
 @description('VM size for agent node')
-param agentVMSize string = 'Standard_D2_v3'
+param agentVMSize string = 'Standard_B2s'
 @description('Node disk size in GB')
 @minValue(0)
 @maxValue(1023)
