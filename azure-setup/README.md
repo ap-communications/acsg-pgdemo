@@ -7,12 +7,17 @@ az deployment sub create -f deploy-resource-group.bicep --location japaneast
 # deploy application insights
 az deployment group create -f deploy-app-insights.bicep --resource-group $RESOURCE_GROUP
 
+# deploy virtual network
+az deployment group create -f deploy-vnet.bicep --resource-group $RESOURCE_GROUP
 
 # deploy workspace acr and aks
 az deployment group create -f deploy-aks.bicep --resource-group $RESOURCE_GROUP
 
 # deploy postgresql
-az deployment group create -f deploy-pgsql.bicep --resource-group $RESOURCE_GROUP
+az deployment group create -f deploy-pgsql.bicep \
+  --resource-group $RESOURCE_GROUP \
+  --parameters adminUser=${PG_ADMIN_USER} \
+      adminPassword=${PG_ADMIN_PASSWORD}
 
 ```
 

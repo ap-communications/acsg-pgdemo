@@ -21,7 +21,7 @@ param agentMinCount int = 1
 @maxValue(100)
 param agentMaxCount int = agentMinCount
 @description('VM size for agent node')
-param agentVMSize string = 'Standard_D2_v3'
+param agentVMSize string = 'Standard_B2s'
 @description('Node disk size in GB')
 @minValue(0)
 @maxValue(1023)
@@ -32,12 +32,18 @@ param nodeResourceGroup string = 'MC_${resourceGroup().name}'
 param servicePrincipalId string = ''
 @description('service principal secret')
 param servicePrincipalSecret string = ''
-@description('subnet refernce')
-param subnetRef string = ''
 @description('Log analytics workspace id')
 param workspaceId string = ''
+@description('Virtual network name')
+param virtualNetworkName string
+@description('query subnet name')
+param subnetName string
 @description('tags for aks cluster')
 param tags object = {}
+
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-08-01' existing = {
+  name: '${virtualNetworkName}/${subnetName}'
+}
 
 var servicePrincipalProfile = {
   clientId: servicePrincipalId
@@ -72,7 +78,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
         osType: 'Linux'
         enableAutoScaling: true
         availabilityZones: length(availabilityZones) == 0 ? json('null') : availabilityZones
-        vnetSubnetID: empty(subnetRef) ? json('null') : subnetRef
+        vnetSubnetID: empty(subnetName) ? json('null') : subnet.id
       }
     ]
     servicePrincipalProfile: length(servicePrincipalId) != 0 ? servicePrincipalProfile : systemAssignedPrincipalProfile
@@ -89,6 +95,59 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
         enabled: true
       }
     }
+  }
+}
+
+var principalIdForCluster = any(aks.properties.identityProfile.kubeletidentity).objectId
+
+// networking role
+module assignNetworkRole 'assign-subnet-role.bicep' = {
+  name: 'assing-network-contributor-role-to-${clusterName}'
+  params: {
+    virtualNetworkName: virtualNetworkName
+    subnetName: subnetName
+    targetPrincipalId: principalIdForCluster
+  }
+}
+
+// monitor metrics
+var monitoringMetricsPublisherRoleObjectId = '3913510d-42f4-4e42-8a64-420c390055eb'
+module queryMonitorRole 'role-definition.bicep' = {
+  name: 'query-${monitoringMetricsPublisherRoleObjectId}'
+  params: {
+    roleId: monitoringMetricsPublisherRoleObjectId
+  }
+}
+
+var monitoringMetricsPublisherRoleId = queryMonitorRole.outputs.id
+resource assignMonitorRole 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(clusterName, monitoringMetricsPublisherRoleObjectId)
+  scope: aks
+  properties:{
+    principalId: principalIdForCluster
+    roleDefinitionId: queryMonitorRole.outputs.id
+    principalType: 'ServicePrincipal'
+    description: '${clusterName}-MonitringMetricsPublisher'
+  }
+}
+
+// EnsureClusterUserAssignedHasRbacToManageVMS
+var vmContributerRoleObjectId = '9980e02c-c2be-4d73-94e8-173b1dc7cf3c'
+module queryVmContributorRole 'role-definition.bicep' = {
+  name: 'query-${vmContributerRoleObjectId}'
+  params: {
+    roleId: vmContributerRoleObjectId
+  }
+}
+
+resource assignVmContributerRole 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(clusterName, vmContributerRoleObjectId)
+  scope: aks
+  properties:{
+    principalId: principalIdForCluster
+    roleDefinitionId: queryVmContributorRole.outputs.id
+    principalType: 'ServicePrincipal'
+    description: 'It is required to grant the AKS cluster with Virtual Machine Contributor role permissions over the cluster infrastructure resource group to work with Managed Identities and aad-pod-identity. Otherwise MIC component fails while attempting to update MSI on VMSS cluster nodes'
   }
 }
 

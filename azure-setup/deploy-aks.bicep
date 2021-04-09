@@ -21,10 +21,17 @@ param aksAvailabilityZones array = [
 @minValue(0)
 @maxValue(1023)
 param osDiskSizeGB int = 0
+@description('VM size for agent node')
+param agentVMSize string = 'Standard_B2s'
 @description('The mininum number of nodes for the cluster. 1 Node is enough for Dev/Test and minimum 3 nodes, is recommended for Production')
 param agentMinCount int = 2
 @description('The maximum number of nodes for the cluster. 1 Node is enough for Dev/Test and minimum 3 nodes, is recommended for Production')
 param agentMaxCount int = 5
+
+@description('vnet name')
+param vnetName string = '${appName}-vnet'
+@description('subnet name')
+param subnetName string = '${vnetName}-subnet1'
 
 // @description('service principal id')
 // param servicePrincipalId string = 'msi'
@@ -53,10 +60,13 @@ module aks 'templates/aks-cluster.bicep' = {
   params: {
     clusterName: aksClusterName
     kubernetesVersion: aksClusterVersion
+    agentVMSize: agentVMSize
     agentMinCount: agentMinCount
     agentMaxCount: agentMaxCount
     availabilityZones: aksAvailabilityZones
     workspaceId: workspace.outputs.id
+    virtualNetworkName: vnetName
+    subnetName: subnetName
     tags: {
       app: appName
     }
