@@ -26,6 +26,11 @@ param agentMinCount int = 2
 @description('The maximum number of nodes for the cluster. 1 Node is enough for Dev/Test and minimum 3 nodes, is recommended for Production')
 param agentMaxCount int = 5
 
+@description('vnet name')
+param vnetName string = '${appName}-vnet'
+@description('subnet name')
+param subnetName string = '${vnetName}-subnet1'
+
 // @description('service principal id')
 // param servicePrincipalId string = 'msi'
 // @description('service principal secret')
@@ -48,6 +53,15 @@ module workspace 'templates/workspace.bicep' = {
   }
 }
 
+module subnet 'templates/query-subnet.bicep' = {
+  name: 'query-${subnetName}'
+  params: {
+    virtualNetworkName: vnetName
+    subnetName: subnetName
+  }
+}
+
+
 module aks 'templates/aks-cluster.bicep' = {
   name: 'nested-aks-${appName}'
   params: {
@@ -57,6 +71,7 @@ module aks 'templates/aks-cluster.bicep' = {
     agentMaxCount: agentMaxCount
     availabilityZones: aksAvailabilityZones
     workspaceId: workspace.outputs.id
+    vnetSubnetId: subnet.outputs.id
     tags: {
       app: appName
     }
