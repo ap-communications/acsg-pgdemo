@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgdemo-basic-config
+data:
+  activeProfile: azure
