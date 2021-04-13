@@ -36,11 +36,36 @@ spec:
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar"
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: pgdemo-basic-config
+              key: activeProfile
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           valueFrom:
             secretKeyRef:
               name: pgdemo-basic-secret
               key: instrumentationKey
+        - name: AZ_POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresUser
+        - name: AZ_POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresPassword
+        - name: AZ_POSTGRESQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresHost
+        - name: AZ_POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresDatabase
       initContainers:
       - name: init-agent
         image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.2
