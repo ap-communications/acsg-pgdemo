@@ -1,6 +1,11 @@
 spring:
   properties:
     active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${AZ_POSTGRESQL_DATABASE:pgdemo}
+    username: adminuser
+    password: adminuserpasswd
+
 server:
   servlet:
     contextPath: /basic
