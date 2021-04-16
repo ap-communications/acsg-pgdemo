@@ -29,6 +29,10 @@ spec:
             memory: 128Mi   # minimum size for runningx
         ports:
         - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /basic/actuator/health
+            port: 8080
         volumeMounts:
         - mountPath: /shared/java-agent
           name: java-agent
