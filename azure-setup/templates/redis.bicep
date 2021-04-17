@@ -40,7 +40,21 @@ param diagnosticsEnabled bool = false
 @description('tags for redis cache')
 param tags object = {}
 
-resource redisCacheName_resource 'Microsoft.Cache/Redis@2020-06-01' = {
+@description('virtual network name')
+param virtualNetworkName string
+
+@description('subnet name')
+param subnetName string
+
+resource vn 'Microsoft.Network/virtualNetworks@2020-11-01' existing = {
+  name: virtualNetworkName
+}
+
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' existing = {
+  name: '${virtualNetworkName}/${subnetName}'
+}
+
+resource redis 'Microsoft.Cache/Redis@2020-06-01' = {
   name: redisCacheName
   location: location
   properties: {
@@ -55,3 +69,47 @@ resource redisCacheName_resource 'Microsoft.Cache/Redis@2020-06-01' = {
   tags: tags
 }
 
+var endpointName = '${redisCacheName}-endpoint'
+
+module endpoint 'private-endpoint.bicep' = {
+  name: 'inner-deploy-${endpointName}'
+  params: {
+    name: endpointName
+    subnetId: subnet.id
+    linkServiceConnections: [
+      {
+        serviceId: redis.id
+        groupIds: [
+          'redisCache'
+        ]
+      }
+    ]
+  }
+}
+
+var redisDomainName = 'privatelink.redis.cache.windows.net'
+
+module dns 'private-dns.bicep' = {
+  name: 'inner-deploy-dns-${redisDomainName}'
+  params: {
+    name: redisDomainName
+    vnId: vn.id
+  }
+}
+
+module dnsGroup 'private-zone-group.bicep' = {
+  name: 'inner-dns-group-${redisDomainName}'
+  params: {
+    name: '${endpointName}/default'
+    zoneIds: [
+      {
+        zoneName: redisDomainName
+        zoneId: dns.outputs.id
+      }
+    ]
+  }
+  dependsOn: [
+    redis
+    endpoint
+  ]
+}
