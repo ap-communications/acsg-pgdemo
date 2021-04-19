@@ -18,6 +18,9 @@ az deployment group create -f deploy-pgsql.bicep \
   --resource-group $RESOURCE_GROUP \
   --parameters adminUser=${PG_ADMIN_USER} \
       adminPassword=${PG_ADMIN_PASSWORD}
+
+# deploy redis
+az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
 ```
 
 ## Setup virtual machine
