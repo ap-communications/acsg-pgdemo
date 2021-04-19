@@ -1,6 +1,6 @@
 # Setup azure resurces
 
-```
+```bash
 # deploy resource group
 az deployment sub create -f deploy-resource-group.bicep --location japaneast
 
@@ -18,12 +18,24 @@ az deployment group create -f deploy-pgsql.bicep \
   --resource-group $RESOURCE_GROUP \
   --parameters adminUser=${PG_ADMIN_USER} \
       adminPassword=${PG_ADMIN_PASSWORD}
+```
 
+## Setup virtual machine
+
+```bash
+# generate ssh-key (ed25519 is not supported!)
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/azure_id_rsa
+
+# store public key to azure
+az deployment group create -f deploy-key.bicep -g $RESOURCE_GROUP -p publicKey="$(cat ~/.ssh/azure_id_rsa.pub)"
+
+# deploy a virtual machine
+az deployment group create -f deploy-vm.bicep -g $RESOURCE_GROUP
 ```
 
 deploy後 [Container Insightsメトリックを有効にする](https://docs.microsoft.com/ja-jp/azure/azure-monitor/containers/container-insights-update-metrics)
 
-```
+```bash
 az aks show -g <resourceGroupName> -n <clusterName> 
 az role assignment create --assignee <clientIdOfSPN> --scope <clusterResourceId> --role "Monitoring Metrics Publisher" 
 ```
