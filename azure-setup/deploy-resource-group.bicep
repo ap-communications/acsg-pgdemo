@@ -1,13 +1,14 @@
-
 // this file can only be deployed at a subscription scope
 targetScope = 'subscription'
 
+@description('Application name')
+param appName string = 'pgdemo'
 @description('location for general purpose resource group')
 param location string = deployment().location
 @description('add suffix to name if true')
 param suffixEnabled bool = true
 @description('Resource group name for general purpose')
-param rgName string = 'rg-pgdemo'
+param rgName string = 'rg-${appName}'
 @description('suffix text')
 param suffix string = location
 
@@ -19,7 +20,7 @@ module rg 'templates/resource-group.bicep' = {
     name: actualName
     location: location
     tags: {
-      app: 'pg-demo'
+      app: appName
     }
   }
 }
