@@ -36,6 +36,16 @@ param virtualNetworkName string
 @description('subnet name')
 param subnetName string
 
+@description('Specify a boolean value that indicates whether diagnostics should be saved to the specified workspace.')
+param diagnosticsEnabled bool = false
+
+@description('Specify an existing storage account for diagnostics.')
+param existingWorkspaceName string
+
+resource workspace 'Microsoft.OperationalInsights/workspaces@2020-10-01' existing = {
+  name:existingWorkspaceName
+}
+
 resource vn 'Microsoft.Network/virtualNetworks@2020-11-01' existing = {
   name: virtualNetworkName
 }
@@ -57,6 +67,20 @@ resource redis 'Microsoft.Cache/Redis@2020-06-01' = {
     }
   }
   tags: tags
+}
+
+resource diag 'Microsoft.Insights/diagnosticsettings@2017-05-01-preview' = {
+  name: redisCacheName
+  properties: {
+    workspaceId: workspace.id
+    metrics: [
+      {
+        timeGrain: 'AllMetrics'
+        enabled: diagnosticsEnabled
+      }
+    ]
+  }
+  scope: redis
 }
 
 var endpointName = '${redisCacheName}-endpoint'
