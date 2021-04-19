@@ -23,7 +23,25 @@ az deployment group create -f deploy-pgsql.bicep \
 az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
 ```
 
+## if you need another azure environment
+
+同じbicepテンプレートを利用して別のアプリ環境を作成する場合は、`appName`パラメータを指定することにより実現できます。
+
+```bash
+# you can create another environment with "appName" parameter
+az deployment sub create \
+  -f deploy-resource-group.bicep \
+  -l japaneast \
+  -p appName=$ANOTHER_APP_NAME \
+  --confirm-with-what-if
+```
+
+その他すべてのコマンドでも同様に`-p appName=$ANOTHER_APP_NAME`を付与してください。  
+`-p`オプションは`--parameters`とも記述できます。
+
 ## Setup virtual machine
+
+踏み台用のBastion VMをホストする場合は以下を実行できます。SSH keyの複数人による管理について、現状は考慮されていません。
 
 ```bash
 # generate ssh-key (ed25519 is not supported!)
