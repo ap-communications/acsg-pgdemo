@@ -1,14 +1,13 @@
-# How to make ConfigMap yaml files
+# How to deploy servers
 
-## Prerequisite
+see [server](server) folder and [bff](bff) folder
 
-- install [yq(ver4)](https://github.com/mikefarah/yq/) on your PC
-- set InstrumentationKey to environment named AI_CONNECTION_STRING
-
-exx.
-export AI_CONNECTION_STRING="InstrumentationKey..."
+## deploy ingress
 
 ```
+# deploy ingress
+kubectl apply -f ingress.yaml
+
 # make secret.yaml file for Secret
 
 export AI_KEY=`echo -n $AI_CONNECTION_STRING | base64` && \
@@ -22,13 +21,7 @@ export AI_KEY=`echo -n $AI_CONNECTION_STRING | base64` && \
     | yq e '.data.postgresDatabase = env(AZ_POSTGRESQL_DATABASE)' - \
     | yq e '.data.instrumentationKey = env(AI_KEY)' -  > secret.yaml
 
-# deploy application
-kubectl apply -f config.yaml
+# deploy secret
 kubectl apply -f secret.yaml
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-
-# deploy ingress
-kubectl apply -f ingress.yaml
 
 ```
