@@ -1,0 +1,11 @@
+
+server:
+  port: 8090
+
+spring:
+  webflux:
+    basePath: /bff
+
+backend:
+  demoHost: http://localhost:8080
+  demoBasePath: /basic
