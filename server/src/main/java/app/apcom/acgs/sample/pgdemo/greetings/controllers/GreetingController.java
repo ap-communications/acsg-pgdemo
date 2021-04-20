@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GreetingController {
     @RequestMapping()
     public GreetingResponse get() {
-        log.error("error logging", new Exception("this is sample expeption"));
+        // log.error("error logging", new Exception("this is sample expeption"));
         log.warn("warn logging");
         log.info("info logging");
         log.debug("debug logging");
