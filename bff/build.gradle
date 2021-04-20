@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.4.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+		id 'com.google.cloud.tools.jib' version '2.8.0'
 	id 'java'
 }
 
@@ -14,6 +15,15 @@ repositories {
 
 bootRun {
 	jvmArgs = ['-Dreactor.netty.http.server.accessLogEnabled=true']
+}
+
+jib {
+	from {
+		image = 'gcr.io/distroless/java:11'
+	}
+	to {
+		tags = ['latest']
+	}
 }
 
 dependencies {

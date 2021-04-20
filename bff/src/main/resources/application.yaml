@@ -7,5 +7,5 @@ spring:
     basePath: /bff
 
 backend:
-  demoHost: http://localhost:8080
-  demoBasePath: /basic
+  demoHost: ${DEMO_HOST:http://localhost:8080}
+  demoBasePath: ${DEMO_BASE_PATH:/basic}
