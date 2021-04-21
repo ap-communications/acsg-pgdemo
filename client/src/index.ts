@@ -4,7 +4,7 @@ import { isNumber } from 'util';
 import { download } from './download'
 import logger from './utils/logger';
 
-const MAXIMUN_NUM_OF_DOWNLOAD = 10;
+const MAXIMUN_NUM_OF_DOWNLOAD = 20;
 const parseMaxDownload = (n: number) => {
   if (typeof n !== 'number' || n < 1 || MAXIMUN_NUM_OF_DOWNLOAD < n) {
     return MAXIMUN_NUM_OF_DOWNLOAD;
