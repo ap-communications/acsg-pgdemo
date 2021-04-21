@@ -40,6 +40,8 @@ spec:
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar"
+        - name: APPLICATIONINSIGHTS_ROLE_NAME
+          value: "pgdemo-api"
         - name: SPRING_PROFILES_ACTIVE
           valueFrom:
             configMapKeyRef:
@@ -72,7 +74,7 @@ spec:
               key: postgresDatabase
       initContainers:
       - name: init-agent
-        image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.2
+        image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.3
         command: ["cp", "applicationinsights-agent.jar", "/shared/java-agent/applicationinsights-agent.jar"]
         volumeMounts:
         - mountPath: /shared/java-agent
