@@ -31,7 +31,7 @@ param agentMaxCount int = 5
 @description('vnet name')
 param vnetName string = '${appName}-vnet'
 @description('subnet name')
-param subnetName string = '${vnetName}-subnet1'
+param subnetName string = '${vnetName}-aks-subnet'
 
 // @description('service principal id')
 // param servicePrincipalId string = 'msi'

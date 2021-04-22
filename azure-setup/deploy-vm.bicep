@@ -7,7 +7,7 @@ param vmName string = '${appName}-vm'
 @description('vnet name')
 param vnetName string = '${appName}-vnet'
 @description('subnet name')
-param subnetName string = '${vnetName}-subnet1'
+param subnetName string = '${vnetName}-bastion-subnet'
 
 module vm 'templates/linux-vm.bicep' = {
   name: 'deploy-${vmName}'
