@@ -7,10 +7,15 @@ param tags object = {}
 param virtualNetworkName string
 @description('Address prefix for virtual network')
 param addressPrefix string = '10.0.0.0/8'
-@description('Subnet name')
-param subnetName string
-@description('Subnet prefix for virtual network')
-param subnetPrefix string = '10.1.0.0/16'
+@description('Subnet name, addressPrefix, privateEndpointNetworkPolicies object-arrayy for virtual network')
+param subnets array = [
+  {
+    name: 'default'
+    prefix: '10.1.0.0/16'
+    endpointPolicy: 'Enabled'
+    servicePolicy: 'Enabled'
+  }
+]
 
 resource vn 'Microsoft.Network/virtualNetworks@2020-06-01' = {
   name: virtualNetworkName
@@ -22,15 +27,14 @@ resource vn 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         addressPrefix
       ]
     }
-    subnets: [
-      {
-        name: subnetName
-        properties: {
-          addressPrefix: subnetPrefix
-          privateEndpointNetworkPolicies: 'Disabled'
-        }
+    subnets: [for subnet in subnets: {
+      name: subnet.name
+      properties: {
+        addressPrefix: subnet.prefix
+        privateEndpointNetworkPolicies: subnet.endpointPolicy
+        privateLinkServiceNetworkPolicies: subnet.servicePolicy
       }
-    ]
+    }]
   }
 }
 

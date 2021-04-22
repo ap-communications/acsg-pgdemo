@@ -6,7 +6,7 @@ param redisName string = '${appName}-redis'
 @description('vnet name')
 param vnetName string = '${appName}-vnet'
 @description('subnet name')
-param subnetName string = '${vnetName}-subnet1'
+param subnetName string = '${vnetName}-private-link-subnet'
 
 // dependency exists!
 @description('subscription id for workspace')
