@@ -43,6 +43,8 @@ spec:
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar -Dreactor.netty.http.server.accessLogEnabled=true"
+        - name: APPLICATIONINSIGHTS_ROLE_NAME
+          value: "pgdemo-bff"          
         - name: SPRING_MAIN_BANNER-MODE
           value: "off"
         - name: DEMO_HOST
