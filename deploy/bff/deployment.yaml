@@ -25,11 +25,14 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            cpu: 100m       # 0.1 of a cpu
-            memory: 128Mi   # minimum size for runningx
+            cpu: 200m       # 0.1 of a cpu
+            memory: 1Gi     # minimum size for running
+          limits:
+            cpu: '1'        # 1 of a cpu
+            memory: 1Gi     # limit size for running
         ports:
         - containerPort: 8090
-        livenessProbe:
+        readinessProbe:
           httpGet:
             path: /bff/actuator/health
             port: 8090
