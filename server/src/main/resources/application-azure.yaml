@@ -1,4 +1,6 @@
 spring:
+  main:
+    banner-mode: off
   datasource:
     url: jdbc:postgresql://${AZ_POSTGRESQL_HOST}.postgres.database.azure.com:5432/${AZ_POSTGRESQL_DATABASE:pgdemo}?&sslmode=require
     username: ${AZ_POSTGRESQL_USERNAME}
