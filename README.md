@@ -28,3 +28,5 @@
 └── test-environment
       ローカル環境テスト用Doker composeファイル
 </pre>
+
+![Network diagram](network-diagram.drawio.png)
