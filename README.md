@@ -2,19 +2,6 @@
 
 ## ディレクトリ構成概要
 
-<<<<<<< HEAD
-- Lombok
-- Spring Data JDBC
-- PostgreSQL Driver
-
-## Architecture
-
-![img](docs/sample_architecture.drawio.png)
-
-## Network Architecture
-
-![img](docs/network_architecture.drawio.png)
-=======
 <pre>
 .
 ├── appinsights-agent
@@ -43,4 +30,3 @@
 </pre>
 
 ![Network diagram](network-diagram.drawio.png)
->>>>>>> 7d407eeb8df38ea4224af05603748ba7f56743aa
