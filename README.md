@@ -7,7 +7,7 @@
 ├── appinsights-agent
 |     Application Insights Dockerイメージ作成
 ├── azure-setup
-│   │   Azureリソース IaC     
+│   │   Azureリソース IaC
 │   └── templates
 |         Azureリソース作成用 IaCテンプレート
 ├── bff
