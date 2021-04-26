@@ -7,4 +7,5 @@ import lombok.Value;
 @Builder
 public class GreetingResponse {
     private String message;
+    private String hostname;
 }

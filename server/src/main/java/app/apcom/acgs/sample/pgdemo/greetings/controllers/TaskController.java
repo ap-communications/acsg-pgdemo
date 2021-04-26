@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.apcom.acgs.sample.pgdemo.greetings.configrations.ServerConfig;
 import app.apcom.acgs.sample.pgdemo.greetings.dao.TaskDao;
 import app.apcom.acgs.sample.pgdemo.greetings.models.TaskListItem;
 import app.apcom.acgs.sample.pgdemo.greetings.models.TaskListResponse;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskRepository taskRepository;
+    private final ServerConfig serverConfig;
     
     @RequestMapping()
     public TaskListResponse get() {
@@ -28,7 +30,10 @@ public class TaskController {
         while(itr.hasNext()) {
             list.add(convertFrom(itr.next()));
         }
-        return TaskListResponse.builder().items(list).build();
+        return TaskListResponse.builder()
+            .items(list)
+            .hostname(serverConfig.getHostname())
+            .build();
     }
 
     private TaskListItem convertFrom(TaskDao task) {

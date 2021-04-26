@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pgdemo-basic
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: pgdemo-basic
-        image: pgdemoacr.azurecr.io/pgdemo:0.4.4
+        image: pgdemoacr.azurecr.io/pgdemo:0.5.0
         imagePullPolicy: IfNotPresent
         resources:
           requests:
