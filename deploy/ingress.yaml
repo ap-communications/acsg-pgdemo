@@ -15,3 +15,10 @@ spec:
               number: 8080
         path: /basic
         pathType: Prefix
+      - backend:
+          service:
+            name: bff
+            port:
+              number: 8090
+        path: /bff
+        pathType: Prefix

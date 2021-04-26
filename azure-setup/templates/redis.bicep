@@ -19,23 +19,13 @@ param redisCacheSKU string = 'Standard'
 @description('Specify the family for the sku. C = Basic/Standard, P = Premium.')
 param redisCacheFamily string = 'C'
 
-@allowed([
-  0
-  1
-  2
-  3
-  4
-  5
-  6
-])
+@minValue(0)
+@maxValue(6)
 @description('Specify the size of the new Azure Redis Cache instance. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4)')
 param redisCacheCapacity int = 1
 
 @description('Specify a boolean value that indicates whether to allow access via non-SSL ports.')
 param enableNonSslPort bool = false
-
-@description('Specify a boolean value that indicates whether diagnostics should be saved to the specified storage account.')
-param diagnosticsEnabled bool = false
 
 @description('tags for redis cache')
 param tags object = {}
@@ -45,6 +35,16 @@ param virtualNetworkName string
 
 @description('subnet name')
 param subnetName string
+
+@description('Specify a boolean value that indicates whether diagnostics should be saved to the specified workspace.')
+param diagnosticsEnabled bool = false
+
+@description('Specify an existing storage account for diagnostics.')
+param existingWorkspaceName string
+
+resource workspace 'Microsoft.OperationalInsights/workspaces@2020-10-01' existing = {
+  name:existingWorkspaceName
+}
 
 resource vn 'Microsoft.Network/virtualNetworks@2020-11-01' existing = {
   name: virtualNetworkName
@@ -67,6 +67,20 @@ resource redis 'Microsoft.Cache/Redis@2020-06-01' = {
     }
   }
   tags: tags
+}
+
+resource diag 'Microsoft.Insights/diagnosticsettings@2017-05-01-preview' = {
+  name: redisCacheName
+  properties: {
+    workspaceId: workspace.id
+    metrics: [
+      {
+        timeGrain: 'AllMetrics'
+        enabled: diagnosticsEnabled
+      }
+    ]
+  }
+  scope: redis
 }
 
 var endpointName = '${redisCacheName}-endpoint'

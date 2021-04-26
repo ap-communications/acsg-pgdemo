@@ -5,6 +5,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/${AZ_POSTGRESQL_DATABASE:pgdemo}
     username: adminuser
     password: adminuserpasswd
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
 
 server:
   servlet:

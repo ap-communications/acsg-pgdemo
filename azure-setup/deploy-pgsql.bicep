@@ -12,7 +12,7 @@ param adminPassword string
 @description('vnet name')
 param vnetName string = '${appName}-vnet'
 @description('subnet name')
-param subnetName string = '${vnetName}-subnet1'
+param subnetName string = '${vnetName}-private-link-subnet'
 
 
 module db 'templates/postgresql.bicep' = {

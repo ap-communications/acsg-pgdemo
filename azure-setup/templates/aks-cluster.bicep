@@ -53,6 +53,9 @@ var systemAssignedPrincipalProfile = {
   clientId: 'msi'
 }
 
+var actualAgentMinCount = agentMinCount < length(availabilityZones) ? length(availabilityZones) : agentMinCount
+var actualAgentMaxCount = agentMaxCount < actualAgentMinCount ? actualAgentMinCount : agentMaxCount
+
 // Azure kubernetes service
 resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
   name: clusterName
@@ -68,9 +71,9 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
     agentPoolProfiles: [
       {
         name: defaultAgentPoolName
-        count: agentMinCount
-        minCount: agentMinCount
-        maxCount: agentMaxCount
+        count: actualAgentMinCount
+        minCount: actualAgentMinCount
+        maxCount: actualAgentMaxCount
         osDiskSizeGB: osDiskSizeGB
         mode: 'System'
         vmSize: agentVMSize

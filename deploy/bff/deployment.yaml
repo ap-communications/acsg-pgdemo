@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff
+  labels:
+    app: bff
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: bff
+  template:
+    metadata:
+      labels:
+        app: bff
+    spec:
+      containers:
+      - name: bff
+        image: pgdemoacr.azurecr.io/bff:0.1.1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 200m       # 0.1 of a cpu
+            memory: 1Gi     # minimum size for running
+          limits:
+            cpu: '1'        # 1 of a cpu
+            memory: 1Gi     # limit size for running
+        ports:
+        - containerPort: 8090
+        readinessProbe:
+          httpGet:
+            path: /bff/actuator/health
+            port: 8090
+        volumeMounts:
+        - mountPath: /shared/java-agent
+          name: java-agent
+          readOnly: true
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar -Dreactor.netty.http.server.accessLogEnabled=true"
+        - name: APPLICATIONINSIGHTS_ROLE_NAME
+          value: "pgdemo-bff"          
+        - name: SPRING_MAIN_BANNER-MODE
+          value: "off"
+        - name: DEMO_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: bff-config
+              key: demoHost
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: instrumentationKey
+      initContainers:
+      - name: init-agent
+        image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.3
+        command: ["cp", "applicationinsights-agent.jar", "/shared/java-agent/applicationinsights-agent.jar"]
+        volumeMounts:
+        - mountPath: /shared/java-agent
+          name: java-agent
+      volumes:
+      - name: java-agent
+        emptyDir: {}
