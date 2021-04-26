@@ -7,7 +7,7 @@
 ├── appinsights-agent
 |     Application Insights Dockerイメージ作成
 ├── azure-setup
-│   │   Azureリソース IaC     
+│   │   Azureリソース IaC
 │   └── templates
 |         Azureリソース作成用 IaCテンプレート
 ├── bff
@@ -29,4 +29,4 @@
       ローカル環境テスト用Doker composeファイル
 </pre>
 
-![Network diagram](network-diagram.drawio.png)
+![Network diagram](diagrams/network-diagram.drawio.png)
