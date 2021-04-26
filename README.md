@@ -29,4 +29,4 @@
       ローカル環境テスト用Doker composeファイル
 </pre>
 
-![Network diagram](network-diagram.drawio.png)
+![Network diagram](drawio-diagrams/network-diagram.drawio.png)
