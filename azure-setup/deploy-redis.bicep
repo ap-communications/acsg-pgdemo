@@ -14,7 +14,7 @@ param subscriptionId string = subscription().subscriptionId
 @description('Kubernetes cluster name')
 param aksClusterName string = appName
 @description('Specify a boolean value that indicates whether diagnostics should be saved to the specified workspace.')
-param diagnosticsEnabled bool
+param diagnosticsEnabled bool = false
 
 var workspaceNamePrefix = aksClusterName
 var workspaceName = '${workspaceNamePrefix}-${subscriptionId}'

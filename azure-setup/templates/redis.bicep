@@ -69,7 +69,7 @@ resource redis 'Microsoft.Cache/Redis@2020-06-01' = {
   tags: tags
 }
 
-resource diag 'Microsoft.Insights/diagnosticsettings@2017-05-01-preview' = {
+resource diag 'Microsoft.Insights/diagnosticsettings@2017-05-01-preview' = if(diagnosticsEnabled) {
   name: redisCacheName
   properties: {
     workspaceId: workspace.id
