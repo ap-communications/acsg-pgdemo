@@ -19,7 +19,7 @@ public class GreetingTaskController {
         .map(tuple -> {
              final var greeting = tuple.getT1();
              final var tasks = tuple.getT2();
-             return GreetingTask.builder().greeting(greeting).taks(tasks).build();
+             return GreetingTask.builder().greeting(greeting).tasks(tasks).build();
         });
     }    
 }

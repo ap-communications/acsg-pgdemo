@@ -9,4 +9,7 @@ import lombok.Value;
 @Builder
 public class TaskListResponse {
     private List<TaskListItem> items;
+    private String message;
+    private String hostname;
+    private boolean hasCache;
 }

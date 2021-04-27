@@ -7,5 +7,5 @@ import lombok.Value;
 @Builder
 public class GreetingTask {
     private Object greeting;
-    private Object taks;
+    private Object tasks;
 }

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pgdemo-basic
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: pgdemo-basic
-        image: pgdemoacr.azurecr.io/pgdemo:0.4.4
+        image: pgdemoacr.azurecr.io/pgdemo:0.5.2
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -75,6 +75,16 @@ spec:
             secretKeyRef:
               name: pgdemo-basic-secret
               key: postgresDatabase
+        - name: AZ_REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: redisHost
+        - name: AZ_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: redisPassword
       initContainers:
       - name: init-agent
         image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.3
