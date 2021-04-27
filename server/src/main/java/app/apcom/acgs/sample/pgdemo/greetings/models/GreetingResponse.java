@@ -8,4 +8,5 @@ import lombok.Value;
 public class GreetingResponse {
     private String message;
     private String hostname;
+    private boolean hasCache;
 }

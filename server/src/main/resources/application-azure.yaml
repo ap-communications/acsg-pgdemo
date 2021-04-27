@@ -5,3 +5,8 @@ spring:
     url: jdbc:postgresql://${AZ_POSTGRESQL_HOST}.postgres.database.azure.com:5432/${AZ_POSTGRESQL_DATABASE:pgdemo}?&sslmode=require
     username: ${AZ_POSTGRESQL_USERNAME}
     password: ${AZ_POSTGRESQL_PASSWORD}
+  redis:
+    host: ${AZ_REDIS_HOST}.redis.cache.windows.net
+    port: ${AZ_REDIS_PORT:6380}
+    ssl: true
+    password: ${AZ_REDIS_PASSWORD}
