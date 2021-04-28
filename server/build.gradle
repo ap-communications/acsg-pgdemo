@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'com.google.cloud.tools.jib' version '2.8.0'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'app.ap-com.acgs.sample'
@@ -17,6 +18,14 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+test {
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
 }
 
 jib {
