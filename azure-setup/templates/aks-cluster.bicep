@@ -40,6 +40,12 @@ param virtualNetworkName string
 param subnetName string
 @description('tags for aks cluster')
 param tags object = {}
+@allowed([
+  'azure'
+  'calico'
+])
+@description('network plugin for network policy')
+param networkPolicy string = 'azure'
 
 resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-08-01' existing = {
   name: '${virtualNetworkName}/${subnetName}'
@@ -88,7 +94,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
     nodeResourceGroup: nodeResourceGroup
     networkProfile: {
       networkPlugin: 'azure'  // use Azure CNI
-      networkPolicy: 'azure' // use Azure Network Policy
+      networkPolicy: networkPolicy // use Azure Network Policy
       loadBalancerSku: 'standard'
     }
     addonProfiles: {
