@@ -42,7 +42,14 @@ param subnetName string = '${vnetName}-aks-subnet'
 @description('workspace sku')
 param workspaceSku string = 'Free'
 
-var aksClusterVersion = '1.19.6'
+@allowed([
+  'azure'
+  'calico'
+])
+@description('network plugin for network policy')
+param networkPolicy string = 'azure'
+
+var aksClusterVersion = '1.19.9'
 
 module workspace 'templates/workspace.bicep' = {
   name: 'nested-workspace-${appName}'
@@ -67,6 +74,7 @@ module aks 'templates/aks-cluster.bicep' = {
     workspaceId: workspace.outputs.id
     virtualNetworkName: vnetName
     subnetName: subnetName
+    networkPolicy: networkPolicy
     tags: {
       app: appName
     }
