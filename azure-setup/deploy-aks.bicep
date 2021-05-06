@@ -74,6 +74,7 @@ module aks 'templates/aks-cluster.bicep' = {
     workspaceId: workspace.outputs.id
     virtualNetworkName: vnetName
     subnetName: subnetName
+    networkPolicy: networkPolicy
     tags: {
       app: appName
     }
