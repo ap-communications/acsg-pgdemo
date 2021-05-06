@@ -88,6 +88,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
     nodeResourceGroup: nodeResourceGroup
     networkProfile: {
       networkPlugin: 'azure'  // use Azure CNI
+      networkPolicy: 'azure' // use Azure Network Policy
       loadBalancerSku: 'standard'
     }
     addonProfiles: {
