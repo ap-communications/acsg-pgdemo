@@ -83,7 +83,7 @@ module aks 'templates/aks-cluster.bicep' = {
 
 module acrGroup 'templates/resource-group.bicep' = if(resourceGroup().name != acrResourceGroupName) {
   scope: subscription()
-  name: 'neteted-rc-${acrResourceGroupName}'
+  name: 'neseted-rc-${acrResourceGroupName}'
   params: {
     name: acrResourceGroupName
     location: acrLocation

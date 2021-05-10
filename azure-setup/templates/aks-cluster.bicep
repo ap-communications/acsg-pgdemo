@@ -112,7 +112,7 @@ var principalIdForCluster = any(aks.properties.identityProfile.kubeletidentity).
 
 // networking role
 module assignNetworkRole 'assign-subnet-role.bicep' = {
-  name: 'assing-network-contributor-role-to-${clusterName}'
+  name: 'assigning-network-contributor-role-to-${clusterName}'
   params: {
     virtualNetworkName: virtualNetworkName
     subnetName: subnetName
