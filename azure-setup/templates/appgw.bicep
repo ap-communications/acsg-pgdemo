@@ -154,7 +154,7 @@ resource appgw 'Microsoft.Network/applicationGateways@2019-09-01' = {
         }
       }
     ]
-    enableHttp2: false
+    enableHttp2: true
     sslCertificates: []
     probes: []
   }
