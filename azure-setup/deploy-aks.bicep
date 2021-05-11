@@ -33,11 +33,6 @@ param vnetName string = '${appName}-vnet'
 @description('subnet name')
 param subnetName string = '${vnetName}-aks-subnet'
 
-// @description('service principal id')
-// param servicePrincipalId string = 'msi'
-// @description('service principal secret')
-// param servicePrincipalSecret string = json('null')
-
 // settings for Log analytics workspace
 @description('workspace sku')
 param workspaceSku string = 'Free'
@@ -83,7 +78,7 @@ module aks 'templates/aks-cluster.bicep' = {
 
 module acrGroup 'templates/resource-group.bicep' = if(resourceGroup().name != acrResourceGroupName) {
   scope: subscription()
-  name: 'neteted-rc-${acrResourceGroupName}'
+  name: 'nested-rc-${acrResourceGroupName}'
   params: {
     name: acrResourceGroupName
     location: acrLocation
@@ -91,7 +86,7 @@ module acrGroup 'templates/resource-group.bicep' = if(resourceGroup().name != ac
 }
 
 module acr 'templates/acr.bicep' = {
-  name: 'neteted-acr-${appName}'
+  name: 'nested-acr-${appName}'
   scope: resourceGroup(acrResourceGroupName)
   params:{
     acrName: acrName

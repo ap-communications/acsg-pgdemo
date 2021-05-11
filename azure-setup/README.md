@@ -21,6 +21,9 @@ az deployment group create -f deploy-pgsql.bicep \
 
 # deploy redis
 az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
+
+# deploy application gateway
+az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP
 ```
 
 ## if you need another azure environment
