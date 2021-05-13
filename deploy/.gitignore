@@ -1,3 +1,4 @@
 # local configuration
 
 secret.yaml
+ingress.yaml

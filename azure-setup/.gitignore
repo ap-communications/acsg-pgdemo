@@ -1,3 +1,6 @@
 
 # bicep build output
 *.json
+
+# cert files
+ingress-tls.*

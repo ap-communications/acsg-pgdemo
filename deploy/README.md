@@ -5,10 +5,16 @@ see [server](server) folder and [bff](bff) folder
 ## deploy ingress
 
 ```
-# deploy ingress
-kubectl apply -f ingress.yaml
+# ingress controller
+## make ingress.yaml
+yq eval '(.spec.tls.[] | select(.secretName == "ingress-tls-csi")) |= .hosts[0] = env(DEMO_DOMAIN_NAME)' template-ingress.yaml > ingress.yaml
 
-# make secret.yaml file for Secret
+## deploy ingress
+kubectl apply -f ingress.yaml -n ingress-basic
+
+
+# secret
+## make secret.yaml file for Secret
 
 export AI_KEY=`echo -n $AI_CONNECTION_STRING | base64` && \
     export AZ_POSTGRESQL_USERNAME=`echo -n ${PG_ADMIN_USER}@${PG_HOST} | base64` && \
@@ -25,7 +31,7 @@ export AI_KEY=`echo -n $AI_CONNECTION_STRING | base64` && \
     | yq e '.data.redisPassword = env(AZ_REDIS_PASSWORD)' - \
     | yq e '.data.instrumentationKey = env(AI_KEY)' - > secret.yaml
 
-# deploy secret
+## deploy secret
 kubectl apply -f secret.yaml
 
 ```
