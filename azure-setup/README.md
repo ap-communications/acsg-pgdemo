@@ -24,6 +24,26 @@ az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
 
 # deploy application gateway
 az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP
+
+## keyvault + certificate の連携は nginx-ingress controllerを利用する場合に機能します
+# deploy keyvault
+az deployment group create -f deploy-keyvault.bicep -g $RESOURCE_GROUP \
+   --parameters administratorObjectId=${KEYVAULT_ADMIN_OBJECTID}
+
+# deploy key vault for ingress tls cert
+# export DEMO_DODMAIN_NAME=
+# 自己証明書を利用する場合は以下のコマンドで証明書ファイルを作成します（有効期限365日）
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -out ingress-tls.crt \
+    -keyout ingress-tls.key \
+    -subj "/CN=${DEMO_DOMAIN_NAME}/O=ingress-tls"
+openssl pkcs12 -export -inkey ingress-tls.key -in ingress-tls.crt  -out ingress-tls.pfx
+
+# 現在certをARM templateでデプロイすることはできません
+# このためコマンドラインからimportします
+az keyvault certificate import --vault-name "pgdemo-keyvault" \
+  --file "ingress-tls.pfx" --name "ingress-tls" --password $TLS_EXPORT_PASSWORD
+
 ```
 
 ## if you need another azure environment
