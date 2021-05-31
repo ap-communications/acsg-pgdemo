@@ -38,6 +38,12 @@ param workspaceId string = ''
 param virtualNetworkName string
 @description('query subnet name')
 param subnetName string
+@description('CIDR IP range for services')
+param serviceCidr string = ''
+@description('IP address assigned to the Kubernetes DNS service ')
+param dnsServcieIP string = ''
+@description('CIDR IP range for docker bridge')
+param dockerBridgeCidr string = ''
 @description('tags for aks cluster')
 param tags object = {}
 @allowed([
@@ -61,6 +67,7 @@ var systemAssignedPrincipalProfile = {
 
 var actualAgentMinCount = agentMinCount < length(availabilityZones) ? length(availabilityZones) : agentMinCount
 var actualAgentMaxCount = agentMaxCount < actualAgentMinCount ? actualAgentMinCount : agentMaxCount
+
 
 // Azure kubernetes service
 resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
@@ -96,6 +103,9 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-12-01' = {
       networkPlugin: 'azure'  // use Azure CNI
       networkPolicy: networkPolicy // use Azure Network Policy
       loadBalancerSku: 'standard'
+      serviceCidr: empty(serviceCidr) ? json('null') : serviceCidr
+      dnsServiceIP: empty((dnsServcieIP)) ? json ('null') : dnsServcieIP
+      dockerBridgeCidr: empty(dockerBridgeCidr) ? json('null') : dockerBridgeCidr
     }
     addonProfiles: {
       omsagent: empty(workspaceId) ? json('null') : {

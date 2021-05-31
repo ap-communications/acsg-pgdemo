@@ -43,6 +43,12 @@ param workspaceSku string = 'Free'
 ])
 @description('network plugin for network policy')
 param networkPolicy string = 'azure'
+@description('CIDR IP range for services')
+param serviceCidr string = '172.29.0.0/16'
+@description('IP address assigned to the Kubernetes DNS service. it can be inside the range of serviceCidr.')
+param dnsServcieIP string = '172.29.0.10'
+@description('CIDR IP range for docker bridge. It can not be the first or last address in its CIDR block')
+param dockerBridgeCidr string = '172.17.0.1/16'
 
 var aksClusterVersion = '1.19.9'
 
@@ -70,6 +76,9 @@ module aks 'templates/aks-cluster.bicep' = {
     virtualNetworkName: vnetName
     subnetName: subnetName
     networkPolicy: networkPolicy
+    serviceCidr: serviceCidr
+    dnsServcieIP: dnsServcieIP
+    dockerBridgeCidr: dockerBridgeCidr
     tags: {
       app: appName
     }
