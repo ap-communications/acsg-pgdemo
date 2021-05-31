@@ -13,7 +13,7 @@ param workspaceSku string = 'Free'
 var workspaceNamePrefix = aksClusterName
 var workspaceName = '${workspaceNamePrefix}-${subscriptionId}'
 
-module workspace 'templates/workspace.bicep' = {
+module workspace 'bicep-templates//monitors/workspace.bicep' = {
   name: 'nested-workspace-${appName}'
   params: {
     workspaceNamePrefix: aksClusterName

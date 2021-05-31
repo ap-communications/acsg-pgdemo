@@ -1,5 +1,13 @@
 # AKS / Spring-boot + PostgreSQL + Redis cache サンプルアプリケーション
 
+## 初期化
+
+azure-setup/bicep-templates にテンプレートファイルを取り込む
+
+```
+git submodule update --init --recursive
+```
+
 ## ディレクトリ構成概要
 
 <pre>
@@ -8,7 +16,7 @@
 |     Application Insights Dockerイメージ作成
 ├── azure-setup
 │   │   Azureリソース IaC
-│   └── templates
+│   └── bicep-templates
 |         Azureリソース作成用 IaCテンプレート
 ├── bff
 |     Backend for Frontend サンプルアプリケーション

@@ -1,0 +1,3 @@
+[submodule "azure-setup/bicep-templates"]
+	path = azure-setup/bicep-templates
+	url = https://github.com/ap-communications/bicep-templates.git
