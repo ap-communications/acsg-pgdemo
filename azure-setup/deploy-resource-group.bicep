@@ -14,7 +14,7 @@ param suffix string = location
 
 var actualName = (suffixEnabled) ? '${rgName}-${suffix}' : rgName
 
-module rg 'bicep-templates//generals/resource-group.bicep' = {
+module rg 'bicep-templates/generals/resource-group.bicep' = {
   name: 'nested-resource-group'
   params: {
     name: actualName

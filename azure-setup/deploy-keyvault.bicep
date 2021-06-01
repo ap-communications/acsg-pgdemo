@@ -7,14 +7,14 @@ param keyVaultName string = '${appName}-keyvault'
 @description('Administrator group/user object id')
 param administratorObjectId string
 
-module aks 'bicep-templates//containers/query-aks.bicep' = {
+module aks 'bicep-templates/containers/query-aks.bicep' = {
   name: 'query-${aksClusterName}'
   params: {
     name: aksClusterName
   }
 }
 
-module kv 'bicep-templates//securites/key-vault.bicep' = {
+module kv 'bicep-templates/securites/key-vault.bicep' = {
   name: 'deploy-${keyVaultName}'
   params: {
     name: keyVaultName

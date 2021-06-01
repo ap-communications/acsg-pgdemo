@@ -9,7 +9,7 @@ param vnetName string = '${appName}-vnet'
 @description('subnet name')
 param subnetName string = '${vnetName}-bastion-subnet'
 
-module vm 'bicep-templates//computes/linux-vm.bicep' = {
+module vm 'bicep-templates/computes/linux-vm.bicep' = {
   name: 'deploy-${vmName}'
   params: {
     virtualMachineName: vmName

@@ -19,7 +19,7 @@ param diagnosticsEnabled bool = false
 var workspaceNamePrefix = aksClusterName
 var workspaceName = '${workspaceNamePrefix}-${subscriptionId}'
 
-module redis 'bicep-templates//databases/redis.bicep' = {
+module redis 'bicep-templates/databases/redis.bicep' = {
   name: 'deploy-${redisName}'
   params: {
     redisCacheName: redisName

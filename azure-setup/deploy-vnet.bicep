@@ -72,7 +72,7 @@ var subnets = [
   }
 ]
 
-module vn 'bicep-templates//networks/vnet.bicep' = {
+module vn 'bicep-templates/networks/vnet.bicep' = {
   name: 'deploy-${vnetName}'
   params: {
     virtualNetworkName: vnetName
