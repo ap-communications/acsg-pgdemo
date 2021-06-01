@@ -13,7 +13,7 @@ param pipName string = '${appName}-appgw-pip'
 
 param subnetPrefix string = '10.100.0.0/16'
 
-module appgw 'bicep-templates//networks/application-gateway.bicep' = {
+module appgw 'bicep-templates/networks/application-gateway.bicep' = {
   name: 'nested-appgw-${appName}'
   params: {
     applicationGatewayName: applicationGatewayName
@@ -26,7 +26,7 @@ module appgw 'bicep-templates//networks/application-gateway.bicep' = {
   ]
 }
 
-module subnet 'bicep-templates//networks/subnet.bicep' = {
+module subnet 'bicep-templates/networks/subnet.bicep' = {
   name: 'nested-appgw-subnet-${appName}'
   params: {
     subnetName: subnetName
