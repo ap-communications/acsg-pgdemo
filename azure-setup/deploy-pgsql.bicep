@@ -15,7 +15,7 @@ param vnetName string = '${appName}-vnet'
 param subnetName string = '${vnetName}-private-link-subnet'
 
 
-module db 'templates/postgresql.bicep' = {
+module db 'bicep-templates//databases/postgresql.bicep' = {
   name: 'nested-${name}'
   params: {
     name: name

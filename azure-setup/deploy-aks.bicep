@@ -52,7 +52,7 @@ param dockerBridgeCidr string = '172.17.0.1/16'
 
 var aksClusterVersion = '1.19.9'
 
-module workspace 'templates/workspace.bicep' = {
+module workspace 'bicep-templates//monitors/workspace.bicep' = {
   name: 'nested-workspace-${appName}'
   params: {
     workspaceNamePrefix: aksClusterName
@@ -63,7 +63,7 @@ module workspace 'templates/workspace.bicep' = {
   }
 }
 
-module aks 'templates/aks-cluster.bicep' = {
+module aks 'bicep-templates//containers/aks-cluster.bicep' = {
   name: 'nested-aks-${appName}'
   params: {
     clusterName: aksClusterName
@@ -85,7 +85,7 @@ module aks 'templates/aks-cluster.bicep' = {
   }
 }
 
-module acrGroup 'templates/resource-group.bicep' = if(resourceGroup().name != acrResourceGroupName) {
+module acrGroup 'bicep-templates//generals/resource-group.bicep' = if(resourceGroup().name != acrResourceGroupName) {
   scope: subscription()
   name: 'nested-rc-${acrResourceGroupName}'
   params: {
@@ -94,7 +94,7 @@ module acrGroup 'templates/resource-group.bicep' = if(resourceGroup().name != ac
   }
 }
 
-module acr 'templates/acr.bicep' = {
+module acr 'bicep-templates//containers/acr.bicep' = {
   name: 'nested-acr-${appName}'
   scope: resourceGroup(acrResourceGroupName)
   params:{

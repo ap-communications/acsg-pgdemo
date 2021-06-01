@@ -7,7 +7,7 @@ param keyName string = '${appName}-sshkey'
 @description('ssh public key')
 param publicKey string
 
-module sshKey'templates/ssh-key.bicep' = {
+module sshKey'bicep-templates//computes/ssh-key.bicep' = {
   name: 'deploy-${keyName}'
   params: {
     keyName: keyName

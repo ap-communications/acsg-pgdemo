@@ -3,7 +3,7 @@
 param appName string = 'pgdemo'
 param insightsName string = '${appName}-${uniqueString('ai', resourceGroup().id)}'
 
-module insights 'templates/app-insights.bicep' = {
+module insights 'bicep-templates//monitors/app-insights.bicep' = {
   name: 'nested-${insightsName}'
   params: {
     name: insightsName    
