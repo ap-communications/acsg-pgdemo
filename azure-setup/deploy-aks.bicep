@@ -68,6 +68,7 @@ module aks 'bicep-templates/containers/aks-cluster.bicep' = {
   params: {
     clusterName: aksClusterName
     kubernetesVersion: aksClusterVersion
+    osDiskSizeGB: osDiskSizeGB
     agentVMSize: agentVMSize
     agentMinCount: agentMinCount
     agentMaxCount: agentMaxCount
