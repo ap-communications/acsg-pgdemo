@@ -26,7 +26,7 @@ secret-csi-setup: id-setup
 	| kubectl apply --namespace $(INGRESS_NAMESPACE) -f -
 
 
-.PHONY: helm-setup
+.PHONY: ingress-setup
 ingress-setup:
 	kubectl apply -f ingress-namespace.yaml
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
