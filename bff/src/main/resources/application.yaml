@@ -9,3 +9,14 @@ spring:
 backend:
   demoHost: ${DEMO_HOST:http://localhost:8080}
   demoBasePath: ${DEMO_BASE_PATH:/basic}
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livnessState:
+      enabled: true
+    readinessState:
+      enabled: true

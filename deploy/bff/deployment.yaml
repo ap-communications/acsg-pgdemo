@@ -32,10 +32,16 @@ spec:
             memory: 1Gi     # limit size for running
         ports:
         - containerPort: 8090
+        livenessProbe:
+          httpGet:
+            path: /bff/actuator/health/liveness
+            port: 8090
+            initialDelaySeconds: 3
         readinessProbe:
           httpGet:
-            path: /bff/actuator/health
+            path: /bff/actuator/health/readiness
             port: 8090
+            initialDelaySeconds: 10
         volumeMounts:
         - mountPath: /shared/java-agent
           name: java-agent
