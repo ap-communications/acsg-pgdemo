@@ -15,6 +15,11 @@ make kured-setup
 
 ## secrets-store-csiのインストール
 
+```
+make secrets-store-setup
+make secret-csi-setup
+```
+
 詳細については[Microsoft docs](https://docs.microsoft.com/ja-jp/azure/key-vault/general/key-vault-integrate-kubernetes) や [Azure Key Vault Provider for Secrets Store CSI Driver](https://github.com/Azure/secrets-store-csi-driver-provider-azure) 参照
 
 ## ingress controllerのインストール

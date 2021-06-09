@@ -36,12 +36,12 @@ spec:
           httpGet:
             path: /bff/actuator/health/liveness
             port: 8090
-            initialDelaySeconds: 3
+          initialDelaySeconds: 3
         readinessProbe:
           httpGet:
             path: /bff/actuator/health/readiness
             port: 8090
-            initialDelaySeconds: 10
+          initialDelaySeconds: 10
         volumeMounts:
         - mountPath: /shared/java-agent
           name: java-agent
