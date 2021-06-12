@@ -14,5 +14,5 @@ CREATE TABLE tasks (
 
 insert into tasks (name, created_at, updated_at) values ('Fist task', current_timestamp, current_timestamp);
 insert into tasks (name, created_at, updated_at) values ('Second task', current_timestamp, current_timestamp);
-insert into tasks (name, created_at, updated_at) values ('Third task', current_timestamp, current_timestamp;
+insert into tasks (name, created_at, updated_at) values ('Third task', current_timestamp, current_timestamp);
 insert into tasks (name, created_at, updated_at) values ('Fourth task', current_timestamp, current_timestamp);
