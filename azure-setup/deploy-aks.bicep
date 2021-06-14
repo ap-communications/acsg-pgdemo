@@ -22,7 +22,7 @@ param aksAvailabilityZones array = [
 @maxValue(1023)
 param osDiskSizeGB int = 0
 @description('VM size for agent node')
-param agentVMSize string = 'Standard_B2s'
+param agentVMSize string = 'Standard_B4ms'
 @description('The mininum number of nodes for the cluster. 1 Node is enough for Dev/Test and minimum 3 nodes, is recommended for Production')
 param agentMinCount int = 2
 @description('The maximum number of nodes for the cluster. 1 Node is enough for Dev/Test and minimum 3 nodes, is recommended for Production')
