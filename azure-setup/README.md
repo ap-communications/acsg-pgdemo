@@ -7,24 +7,6 @@ az deployment sub create -f deploy-resource-group.bicep --location japaneast
 # deploy application insights
 az deployment group create -f deploy-app-insights.bicep --resource-group $RESOURCE_GROUP
 
-# deploy virtual network
-az deployment group create -f deploy-vnet.bicep --resource-group $RESOURCE_GROUP
-
-# deploy workspace acr and aks
-az deployment group create -f deploy-aks.bicep --resource-group $RESOURCE_GROUP
-
-# deploy postgresql
-az deployment group create -f deploy-pgsql.bicep \
-  --resource-group $RESOURCE_GROUP \
-  --parameters adminUser=${PG_ADMIN_USER} \
-      adminPassword=${PG_ADMIN_PASSWORD}
-
-# deploy redis
-az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
-
-# deploy application gateway
-az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP
-
 ## keyvault + certificate の連携は nginx-ingress controllerを利用する場合に機能します
 # deploy keyvault
 az deployment group create -f deploy-keyvault.bicep -g $RESOURCE_GROUP \
@@ -43,8 +25,26 @@ openssl pkcs12 -export -inkey ingress-tls.key -in ingress-tls.crt  -out ingress-
 # このためコマンドラインからimportします
 az keyvault certificate import --vault-name "pgdemo-keyvault" \
   --file "ingress-tls.pfx" --name "ingress-tls" --password $TLS_EXPORT_PASSWORD
-
 ```
+
+# deploy virtual network
+az deployment group create -f deploy-vnet.bicep --resource-group $RESOURCE_GROUP
+
+# deploy workspace acr and aks
+az deployment group create -f deploy-aks.bicep --resource-group $RESOURCE_GROUP
+
+# deploy postgresql
+az deployment group create -f deploy-pgsql.bicep \
+  --resource-group $RESOURCE_GROUP \
+  --parameters adminUser=${PG_ADMIN_USER} \
+      adminPassword=${PG_ADMIN_PASSWORD}
+
+# deploy redis
+az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
+
+# deploy application gateway
+az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP
+
 
 ## if you need another azure environment
 

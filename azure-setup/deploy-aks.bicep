@@ -7,6 +7,8 @@ param acrName string = '${appName}acr'
 param acrResourceGroupName string = resourceGroup().name
 @description('ACR resource group location')
 param acrLocation string = resourceGroup().location
+@description('key vault name')
+param keyVaultName string = '${appName}-keyvault'
 
 // settings for AKS
 @description('Kubernetes cluster name')
@@ -105,5 +107,40 @@ module acr 'bicep-templates/containers/acr.bicep' = {
       displayName: 'Container Registory'
       clusterName: aksClusterName
     }
+  }
+}
+
+
+resource kv 'Microsoft.KeyVault/vaults@2021-04-01-preview' existing = {
+  name: keyVaultName
+}
+
+module kvPolicy 'bicep-templates/securites/kv-access-policies.bicep' = {
+  name: 'nested-kv-policy-aks-${aksClusterName}'
+  params: {
+    name: keyVaultName
+    principalIds: [
+      {
+        id: aks.outputs.principalId
+        admin: false
+      }
+    ]
+  }
+}
+
+var readerRoleObjectId = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
+module readerRoleDef 'bicep-templates/generals/role-definition.bicep' = {
+  name: readerRoleObjectId
+  params: {
+    roleId: readerRoleObjectId
+  }
+}
+
+resource roleAssign 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid('${keyVaultName}-${aksClusterName}-role-assign')
+  scope: kv
+  properties: {
+    principalId: aks.outputs.principalId
+    roleDefinitionId: readerRoleDef.outputs.id
   }
 }
