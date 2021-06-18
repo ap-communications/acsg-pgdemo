@@ -26,3 +26,10 @@ spec:
               number: 8090
         path: /bff
         pathType: Prefix
+      - backend:
+          service:
+            name: spa-client
+            port:
+              number: 80
+        path: /spa-client
+        pathType: Prefix
