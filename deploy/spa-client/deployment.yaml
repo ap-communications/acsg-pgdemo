@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spa-client
+  labels:
+    app: spa-client
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: spa-client
+  template:
+    metadata:
+      labels:
+        app: spa-client
+    spec:
+      containers:
+      - name: spa-client
+        image: pgdemoacr.azurecr.io/spa-client:ce7
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 200m       # 0.1 of a cpu
+            memory: 1Gi     # minimum size for running
+          limits:
+            cpu: '1'        # 1 of a cpu
+            memory: 1Gi     # limit size for running
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 10
