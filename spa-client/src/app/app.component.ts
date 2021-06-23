@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router }  from '@angular/router';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
+import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalytics-js';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,13 +17,20 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (environment.production) {
       const angularPlugin = new AngularPlugin();
+      const clickPlugin = new ClickAnalyticsPlugin();      
       const appInsights = new ApplicationInsights({
         config: {
           instrumentationKey: environment.instrumentationKey,
-          extensions: [ angularPlugin ],
+          enableCorsCorrelation: true,
+          enableRequestHeaderTracking: true,
+          enableResponseHeaderTracking: true,
+          extensions: [ angularPlugin, clickPlugin ],
           extensionConfig: {
             [angularPlugin.identifier]: {
               router: this.router
+            },
+            [clickPlugin.identifier]: {
+              autoCapture: true
             }
           }
         }

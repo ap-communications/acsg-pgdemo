@@ -20,4 +20,9 @@ export class DashboardComponent implements OnInit {
     this.heroService.getHeroes()
       .subscribe(heroes => this.heroes = heroes.slice(1, 5));
   }
+
+  onErrorClick(): void {
+    throw new Error('throw Error');
+  }
+
 }
