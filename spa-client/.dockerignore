@@ -2,3 +2,5 @@
 .git
 dist
 node_modules
+HELP.md 
+README.md
