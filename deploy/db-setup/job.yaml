@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-setup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      name: db-setup
+    spec:
+      restartPolicy: Never
+      containers:
+      - name:  db-setup
+        image: pgdemoacr.azurecr.io/db-setup:cen
+        imagePullPolicy: Always
+        env:
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresUser
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresPassword
+        - name: POSTGRESQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresHost
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: pgdemo-basic-secret
+              key: postgresDatabase
