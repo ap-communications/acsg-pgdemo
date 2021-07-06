@@ -7,7 +7,7 @@ postgreSQL database作成直後、初期化を実行する必要があります�
 以下のコマンドを実行し、初期化を実行します。
 
 ```
-$ cd ${TOP}/db-setup/init-daatabase
+$ cd ${TOP}/db-setup/init-database
 $ make acr
 $ cd ${TOP}/deploy/db-setup
 $ kubectl apply -f job.yaml
