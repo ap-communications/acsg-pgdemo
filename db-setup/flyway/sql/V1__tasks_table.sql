@@ -1,9 +1,3 @@
-// database name is 'pgdemo'
-// create database pgdemo;
-// \l      # check database list
-// \c pgdemo    ＃ switch database
-
-
 CREATE TABLE tasks (
     id SERIAL NOT NULL,
     name VARCHAR(255) NOT NULL,
