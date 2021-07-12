@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: pgdemo-basic
-        image: pgdemoacr.azurecr.io/pgdemo:0.5.3
+        image: pgdemoacr.azurecr.io/pgdemo:0.5.4
         imagePullPolicy: IfNotPresent
         resources:
           requests:

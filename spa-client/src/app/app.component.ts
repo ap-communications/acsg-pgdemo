@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }  from '@angular/router';
+import { take } from 'rxjs/operators';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
 import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalytics-js';
 import { environment } from 'src/environments/environment';
+import { BffServiceService } from './services/bff-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent implements OnInit {
   title = 'Tour of Heroes';
-  constructor(private router: Router) { }
+  constructor(private router: Router, private bffService: BffServiceService) { }
 
   ngOnInit() {
     if (environment.production) {
@@ -45,5 +47,17 @@ export class AppComponent implements OnInit {
     } else {
       console.log('app insights is not loaded');
     }
+    setTimeout(() => this.contactWebService());
+  }
+
+  contactWebService() {
+    this.bffService.getBff().pipe(take(1)).subscribe(
+      success => {
+        console.log(success);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
