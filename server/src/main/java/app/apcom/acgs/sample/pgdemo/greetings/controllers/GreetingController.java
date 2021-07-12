@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/greetings")
+@CrossOrigin
 public class GreetingController {
     private static final String CACHE_KEY = "Greeting";
     private final ServerConfig serverConfig;

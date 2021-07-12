@@ -4,3 +4,4 @@ metadata:
   name: bff-config
 data:
   demoHost: http://pgdemo-basic:8080
+  activeProfile: azure

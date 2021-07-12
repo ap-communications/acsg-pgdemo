@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  instrumentationKey: ''
+  instrumentationKey: '',
+  bffUrl: 'http://localhost:8081/bff/greeting-tasks'
 };
 
 /*

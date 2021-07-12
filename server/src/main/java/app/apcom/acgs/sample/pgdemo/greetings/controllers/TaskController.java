@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     private static final String CACHE_KEY = "Tasks";
     private final TaskRepository taskRepository;

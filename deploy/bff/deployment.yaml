@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: bff
-        image: pgdemoacr.azurecr.io/bff:0.1.2
+        image: pgdemoacr.azurecr.io/bff:0.1.3
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -53,6 +53,11 @@ spec:
           value: "pgdemo-bff"          
         - name: SPRING_MAIN_BANNER-MODE
           value: "off"
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: bff-config
+              key: activeProfile
         - name: DEMO_HOST
           valueFrom:
             configMapKeyRef:
