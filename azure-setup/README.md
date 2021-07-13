@@ -25,7 +25,6 @@ openssl pkcs12 -export -inkey ingress-tls.key -in ingress-tls.crt  -out ingress-
 # このためコマンドラインからimportします
 az keyvault certificate import --vault-name "pgdemo-keyvault" \
   --file "ingress-tls.pfx" --name "ingress-tls" --password $TLS_EXPORT_PASSWORD
-```
 
 # deploy virtual network
 az deployment group create -f deploy-vnet.bicep --resource-group $RESOURCE_GROUP
@@ -44,7 +43,7 @@ az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
 
 # deploy application gateway
 az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP
-
+```
 
 ## if you need another azure environment
 
@@ -71,7 +70,7 @@ az deployment sub create \
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/azure_id_rsa
 
 # store public key to azure
-az deployment group create -f deploy-key.bicep -g $RESOURCE_GROUP -p publicKey="$(cat ~/.ssh/azure_id_rsa.pub)"
+az deployment group create -f deploy-vm-ssh-key.bicep -g $RESOURCE_GROUP -p publicKey="$(cat ~/.ssh/azure_id_rsa.pub)"
 
 # deploy a virtual machine
 az deployment group create -f deploy-vm.bicep -g $RESOURCE_GROUP
