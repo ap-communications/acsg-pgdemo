@@ -1,5 +1,5 @@
 @description('Application name')
-param appName string = 'redisdemo'
+param appName string = 'pgdemo'
 
 @description('ssh key name')
 param keyName string = '${appName}-sshkey'
