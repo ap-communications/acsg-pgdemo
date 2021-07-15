@@ -11,7 +11,7 @@ spec:
       restartPolicy: Never
       containers:
       - name:  db-setup
-        image: pgdemoacr.azurecr.io/db-setup:cen
+        image: pgdemoacr.azurecr.io/db-setup:0.1.0
         imagePullPolicy: Always
         env:
         - name: POSTGRESQL_USERNAME

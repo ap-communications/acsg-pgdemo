@@ -1,4 +1,4 @@
-AGENT_VER := 3.0.3
+AGENT_VER := 3.1.1
 .PHONY: build
 build:
 	curl -L https://github.com/microsoft/ApplicationInsights-Java/releases/download/$(AGENT_VER)/applicationinsights-agent-$(AGENT_VER).jar -o applicationinsights-agent.jar

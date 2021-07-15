@@ -93,7 +93,7 @@ spec:
               key: redisPassword
       initContainers:
       - name: init-agent
-        image: pgdemoacr.azurecr.io/applicationinsights-agent:3.0.3
+        image: pgdemoacr.azurecr.io/applicationinsights-agent:3.1.1
         command: ["cp", "applicationinsights-agent.jar", "/shared/java-agent/applicationinsights-agent.jar"]
         volumeMounts:
         - mountPath: /shared/java-agent
