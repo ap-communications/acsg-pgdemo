@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: spa-client
-        image: pgdemoacr.azurecr.io/spa-client:0.1.3
+        image: pgdemoacr.azurecr.io/spa-client:0.1.4
         imagePullPolicy: IfNotPresent
         resources:
           requests:
