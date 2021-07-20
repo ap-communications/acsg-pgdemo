@@ -4,6 +4,9 @@
 # deploy resource group
 az deployment sub create -f deploy-resource-group.bicep --location japaneast
 
+# deploy log analytics workspace
+az deployment group create -f deploy-workspace.bicep --resource-group $RESOURCE_GROUP
+
 # deploy application insights
 az deployment group create -f deploy-app-insights.bicep --resource-group $RESOURCE_GROUP
 

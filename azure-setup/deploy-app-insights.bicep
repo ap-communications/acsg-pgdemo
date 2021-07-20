@@ -10,7 +10,8 @@ param storeNameForAISourceMap string = '${appName}map'
 module insights 'bicep-templates/monitors/app-insights.bicep' = {
   name: 'nested-${insightsName}'
   params: {
-    name: insightsName    
+    name: insightsName
+    workspaceNamePrefix: appName
     tags: {
       displayName: 'Application Insights Instance'
       app: appName

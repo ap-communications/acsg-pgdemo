@@ -35,10 +35,6 @@ param vnetName string = '${appName}-vnet'
 @description('subnet name')
 param subnetName string = '${vnetName}-aks-subnet'
 
-// settings for Log analytics workspace
-@description('workspace sku')
-param workspaceSku string = 'Free'
-
 @allowed([
   'azure'
   'calico'
@@ -54,14 +50,10 @@ param dockerBridgeCidr string = '172.17.0.1/16'
 
 var aksClusterVersion = '1.19.9'
 
-module workspace 'bicep-templates/monitors/workspace.bicep' = {
-  name: 'nested-workspace-${appName}'
+module workspace 'bicep-templates/monitors/query-workspace.bicep' = {
+  name: 'query-${appName}-workspace'
   params: {
-    workspaceNamePrefix: aksClusterName
-    sku: workspaceSku
-    tags: {
-      app: appName
-    }
+    workspaceNamePrefix: appName
   }
 }
 
