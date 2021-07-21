@@ -8,7 +8,9 @@ az deployment sub create -f deploy-resource-group.bicep --location japaneast
 az deployment group create -f deploy-workspace.bicep --resource-group $RESOURCE_GROUP
 
 # deploy application insights
-az deployment group create -f deploy-app-insights.bicep --resource-group $RESOURCE_GROUP
+az deployment group create -f deploy-app-insights.bicep --resource-group $RESOURCE_GROUP \
+   --parameters administratorObjectId=${KEYVAULT_ADMIN_OBJECTID}
+
 
 ## keyvault + certificate の連携は nginx-ingress controllerを利用する場合に機能します
 # deploy keyvault
