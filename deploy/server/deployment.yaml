@@ -46,6 +46,9 @@ spec:
         - mountPath: /shared/java-agent
           name: java-agent
           readOnly: true
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true          
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar"
@@ -64,12 +67,12 @@ spec:
         - name: AZ_POSTGRESQL_USERNAME
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresUser
         - name: AZ_POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresPassword
         - name: AZ_POSTGRESQL_HOST
           valueFrom:
@@ -101,3 +104,9 @@ spec:
       volumes:
       - name: java-agent
         emptyDir: {}
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "aks-secret"
