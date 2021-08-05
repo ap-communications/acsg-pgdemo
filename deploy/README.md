@@ -14,11 +14,7 @@ yq eval '(.spec.tls.[] | select(.secretName == "ingress-tls-csi")) |= .hosts[0] 
 ## make secret.yaml file for Secret
 
 export AI_KEY=`echo -n $AI_CONNECTION_STRING | base64` && \
-    export AZ_POSTGRESQL_HOST=`echo -n ${PG_HOST} | base64` && \
-    export AZ_POSTGRESQL_DATABASE=`echo -n ${PG_DATABASE} | base64` && \
-    yq e '.data.postgresHost = env(AZ_POSTGRESQL_HOST)' template-secret.yaml \
-    | yq e '.data.postgresDatabase = env(AZ_POSTGRESQL_DATABASE)' - \
-    | yq e '.data.instrumentationKey = env(AI_KEY)' - > secret.yaml
+    yq e '.data.instrumentationKey = env(AI_KEY)' template-secret.yaml > secret.yaml
 
 ## deploy secret
 kubectl apply -f secret.yaml

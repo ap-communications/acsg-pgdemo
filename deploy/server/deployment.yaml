@@ -77,12 +77,12 @@ spec:
         - name: AZ_POSTGRESQL_HOST
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresHost
         - name: AZ_POSTGRESQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresDatabase
         - name: AZ_REDIS_HOST
           valueFrom:

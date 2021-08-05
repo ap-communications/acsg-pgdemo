@@ -31,12 +31,12 @@ spec:
         - name: POSTGRESQL_HOST
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresHost
         - name: POSTGRESQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresDatabase
       volumes:
       - name: secrets-store-inline

@@ -1,5 +1,6 @@
 @description('Application name')
 param appName string = 'pgdemo'
+param dbHostSecretName string = '${appName}-db-host'
 @description('postgresql name')
 param postgresName string = '${appName}-db'
 
@@ -17,6 +18,29 @@ param passwordSecretName string = '${appName}-db-password'
 param password string
 @description('key vault name')
 param keyVaultName string = '${appName}-keyvault'
+
+// secret name for postgres database name
+var databaseSecretName = '${appName}-db-database'
+// postgres database name
+var database = 'pgdemo'
+
+module hostSecret 'bicep-templates/securites/kv-secret.bicep' = {
+  name: 'deploy-${dbHostSecretName}-scret'
+  params: {
+    keyvaultName: keyVaultName
+    secretName: dbHostSecretName
+    secretValue: postgresName
+  }
+}
+
+module databaseSecret 'bicep-templates/securites/kv-secret.bicep' = {
+  name: 'deploy-${databaseSecretName}-scret'
+  params: {
+    keyvaultName: keyVaultName
+    secretName: databaseSecretName
+    secretValue: database
+  }
+}
 
 module userSecret 'bicep-templates/securites/kv-secret.bicep' = {
   name: 'deploy-${userSecretName}-scret'
