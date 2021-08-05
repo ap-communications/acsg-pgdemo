@@ -47,6 +47,9 @@ az deployment group create -f deploy-pgsql.bicep \
 # deploy redis
 az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
 
+# store redis access key to key vault (execute if you create redis or update access key)
+az deployment group create -f deploy-redis-keyvault.bicep -g $RESOURCE_GROUP
+
 # deploy application gateway
 az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP
 ```

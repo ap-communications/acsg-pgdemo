@@ -48,7 +48,7 @@ spec:
           readOnly: true
         - name: secrets-store-inline
           mountPath: "/mnt/secrets-store"
-          readOnly: true          
+          readOnly: true
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-javaagent:/shared/java-agent/applicationinsights-agent.jar"
@@ -87,12 +87,12 @@ spec:
         - name: AZ_REDIS_HOST
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: redisHost
         - name: AZ_REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: redisPassword
       initContainers:
       - name: init-agent
