@@ -16,15 +16,17 @@ kured-setup:
 .PHONY: secrets-store-setup
 secrets-store-setup:
 	helm repo add csi-secrets-store-provider-azure https://raw.githubusercontent.com/Azure/secrets-store-csi-driver-provider-azure/master/charts
-	helm upgrade secrets-store csi-secrets-store-provider-azure/csi-secrets-store-provider-azure --install --namespace kube-system
+	helm upgrade secrets-store csi-secrets-store-provider-azure/csi-secrets-store-provider-azure --install --namespace kube-system -f azure-csi-secrets-store.yaml
 
 .PHONE: secret-csi-setup
 secret-csi-setup: id-setup
 	kubectl apply -f ingress-namespace.yaml
-	yq e '.spec.parameters.tenantId = "$(TENANT_ID)"' secret-provider.yaml \
+	yq e '.spec.parameters.tenantId = "$(TENANT_ID)"' default-secret-provider.yaml \
+	| yq e '.spec.parameters.userAssignedIdentityID = "$(MANAGED_ID)"' - \
+	| kubectl apply --namespace default -f -
+	yq e '.spec.parameters.tenantId = "$(TENANT_ID)"' ingress-secret-provider.yaml \
 	| yq e '.spec.parameters.userAssignedIdentityID = "$(MANAGED_ID)"' - \
 	| kubectl apply --namespace $(INGRESS_NAMESPACE) -f -
-
 
 .PHONY: ingress-setup
 ingress-setup:
@@ -32,3 +34,5 @@ ingress-setup:
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 	helm repo update
 	helm upgrade nginx-ingress ingress-nginx/ingress-nginx  --install --namespace $(INGRESS_NAMESPACE) -f ingress-values.yaml
+
+

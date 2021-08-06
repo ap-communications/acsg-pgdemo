@@ -17,6 +17,9 @@ az deployment group create -f deploy-app-insights.bicep --resource-group $RESOUR
 az deployment group create -f deploy-keyvault.bicep -g $RESOURCE_GROUP \
    --parameters administratorObjectId=${KEYVAULT_ADMIN_OBJECTID}
 
+az deployment group create -f deploy-pgsql-password.bicep -g $RESOURCE_GROUP \
+    --parameters user=${PG_ADMIN_USER} password=${PG_ADMIN_PASSWORD}
+
 # deploy key vault for ingress tls cert
 # export DEMO_DODMAIN_NAME=
 # 自己証明書を利用する場合は以下のコマンドで証明書ファイルを作成します（有効期限365日）
@@ -39,12 +42,13 @@ az deployment group create -f deploy-aks.bicep --resource-group $RESOURCE_GROUP
 
 # deploy postgresql
 az deployment group create -f deploy-pgsql.bicep \
-  --resource-group $RESOURCE_GROUP \
-  --parameters adminUser=${PG_ADMIN_USER} \
-      adminPassword=${PG_ADMIN_PASSWORD}
+  --resource-group $RESOURCE_GROUP
 
 # deploy redis
 az deployment group create -f deploy-redis.bicep -g $RESOURCE_GROUP
+
+# store redis access key to key vault (execute if you create redis or update access key)
+az deployment group create -f deploy-redis-keyvault.bicep -g $RESOURCE_GROUP
 
 # deploy application gateway
 az deployment group create -f deploy-appgw.bicep --resource-group $RESOURCE_GROUP

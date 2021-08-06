@@ -13,24 +13,35 @@ spec:
       - name:  db-setup
         image: pgdemoacr.azurecr.io/db-setup:0.1.0
         imagePullPolicy: Always
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true          
         env:
         - name: POSTGRESQL_USERNAME
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresUser
         - name: POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresPassword
         - name: POSTGRESQL_HOST
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresHost
         - name: POSTGRESQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: pgdemo-basic-secret
+              name: pgdemo-csi-secret
               key: postgresDatabase
+      volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "aks-secret"
