@@ -10,7 +10,8 @@ spec:
     hosts:
     - ${DEMO_DOMAIN_NAME}
   rules:
-  - http:
+  - host: ${DEMO_DOMAIN_NAME}
+    http:
       paths:
       - backend:
           service:
