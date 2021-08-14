@@ -6,6 +6,10 @@ controller:
     patch:
       nodeSelector:
         "beta.kubernetes.io/os": "linux"
+  service:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-resource-group: $RESOURCE_GROUP
+    loadBalancerIP: "$INGRESS_IP"
   extraVolumes:
   - name: secrets-store-inline
     csi:
