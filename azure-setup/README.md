@@ -88,8 +88,6 @@ az deployment group create -f deploy-vm-ssh-key.bicep -g $RESOURCE_GROUP -p publ
 az deployment group create -f deploy-vm.bicep -g $RESOURCE_GROUP
 ```
 
-deploy後 [Container Insightsメトリックを有効にする](https://docs.microsoft.com/ja-jp/azure/azure-monitor/containers/container-insights-update-metrics)
-
 ```bash
 az aks show -g <resourceGroupName> -n <clusterName> 
 az role assignment create --assignee <clientIdOfSPN> --scope <clusterResourceId> --role "Monitoring Metrics Publisher" 
