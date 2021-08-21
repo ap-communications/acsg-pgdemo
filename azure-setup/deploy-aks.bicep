@@ -48,7 +48,7 @@ param dnsServcieIP string = '172.29.0.10'
 @description('CIDR IP range for docker bridge. It can not be the first or last address in its CIDR block')
 param dockerBridgeCidr string = '172.17.0.1/16'
 
-var aksClusterVersion = '1.19.9'
+var aksClusterVersion = '1.20.7'
 
 module workspace 'bicep-templates/monitors/query-workspace.bicep' = {
   name: 'query-${appName}-workspace'
