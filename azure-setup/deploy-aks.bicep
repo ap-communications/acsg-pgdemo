@@ -136,3 +136,11 @@ resource roleAssign 'Microsoft.Authorization/roleAssignments@2020-04-01-preview'
     roleDefinitionId: readerRoleDef.outputs.id
   }
 }
+
+module aksAlert 'deploy-aks-alert.bicep' = {
+  name: 'deploy-alert-with-aks-${aksClusterName}'
+  params: {
+    appName: appName
+    aksClusterName: aksClusterName
+  }
+}
