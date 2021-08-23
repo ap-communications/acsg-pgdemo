@@ -40,6 +40,11 @@ az deployment group create -f deploy-vnet.bicep --resource-group $RESOURCE_GROUP
 # deploy workspace acr and aks
 az deployment group create -f deploy-aks.bicep --resource-group $RESOURCE_GROUP
 
+# deploy container insights alert
+# Alertのみ更新する場合はこちらを実行してください（deploy-aks実行時にも自動的に実行されます）
+az deployment group create -f deploy-aks-alert.bicep --resource-group $RESOURCE_GROUP
+
+
 # deploy postgresql
 az deployment group create -f deploy-pgsql.bicep \
   --resource-group $RESOURCE_GROUP
