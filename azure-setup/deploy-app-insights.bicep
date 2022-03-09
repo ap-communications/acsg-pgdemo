@@ -1,6 +1,9 @@
 // settings for ACR
 @description('Application name')
 param appName string = 'pgdemo'
+@description('Location for resource')
+param location string = resourceGroup().location
+
 @description('Application insights name')
 param insightsName string = '${appName}-${uniqueString('ai', resourceGroup().id)}'
 @description('blob storage container name for client application map')
@@ -15,6 +18,7 @@ param administratorObjectId string
 module mapStorage 'bicep-templates/storages/blob-storage.bicep' = {
   name: 'nested-${insightsName}-map'
   params: {
+    location: location
     accountName: storeNameForAISourceMap
     containerName: containerName
     skuName: 'Standard_LRS'
@@ -46,6 +50,7 @@ module insights 'bicep-templates/monitors/app-insights.bicep' = {
   name: 'nested-${insightsName}'
   params: {
     name: insightsName
+    location: location
     workspaceNamePrefix: appName
     tags: {
       displayName: 'Application Insights Instance'

@@ -10,6 +10,8 @@ param subnetName string = '${vnetName}-private-link-subnet'
 
 @description('key vault name')
 param keyVaultName string = '${appName}-keyvault'
+@description('Location for resource')
+param location string = resourceGroup().location
 @description('secret name for db admin user')
 param userSecretName string = '${appName}-db-user'
 @description('secret name for db admin password')
@@ -23,6 +25,7 @@ module db 'bicep-templates/databases/postgresql.bicep' = {
   name: 'nested-${name}'
   params: {
     name: name
+    location: location
     adminUser: kv.getSecret(userSecretName)
     adminPassword: kv.getSecret(passwordSecretName)
     skuTier: 'GeneralPurpose'
