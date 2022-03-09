@@ -1,5 +1,8 @@
 @description('Application name')
 param appName string = 'pgdemo'
+@description('Location for resource')
+param location string = resourceGroup().location
+
 @description('vnet name')
 param vnetName string = '${appName}-vnet'
 @description('aks subnet name')
@@ -76,6 +79,7 @@ module vn 'bicep-templates/networks/vnet.bicep' = {
   name: 'deploy-${vnetName}'
   params: {
     virtualNetworkName: vnetName
+    location: location
     subnets: subnets
     tags: {
       app: appName

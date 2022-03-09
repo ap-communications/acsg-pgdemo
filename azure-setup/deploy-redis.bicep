@@ -1,5 +1,7 @@
 @description('Application name')
 param appName string = 'pgdemo'
+@description('Location for resource')
+param location string = resourceGroup().location
 
 @description('redis name')
 param redisName string = '${appName}-redis'
@@ -23,6 +25,7 @@ module redis 'bicep-templates/databases/redis.bicep' = {
   name: 'deploy-${redisName}'
   params: {
     redisCacheName: redisName
+    location: location
     virtualNetworkName: vnetName
     subnetName: subnetName
     existingWorkspaceName: workspaceName
